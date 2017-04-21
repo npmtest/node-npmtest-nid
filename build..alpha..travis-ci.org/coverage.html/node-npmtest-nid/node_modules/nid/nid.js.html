@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for node-npmtest-nid/node_modules/nid/nid.js</title>
+    <meta charset="utf-8">
+    <style>
+        body, html {
+            margin:0; padding: 0;
+        }
+        body {
+            font-family: Arial, Helvetica;
+            font-size: 10pt;
+        }
+        div.header, div.footer {
+            background: #eee;
+            padding: 1em;
+        }
+        div.header {
+            height: 160px;
+            padding: 0 1em 0 1em;
+            z-index: 100;
+            position: fixed;
+            top: 0;
+            border-bottom: 1px solid #666;
+            width: 100%;
+        }
+        div.footer {
+            border-top: 1px solid #666;
+        }
+        div.body {
+            margin-top: 170px;
+        }
+        div.meta {
+            font-size: 90%;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            font-weight: normal;
+        }
+        h1 {
+            font-size: 12pt;
+        }
+        h2 {
+            font-size: 10pt;
+        }
+        pre {
+            font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            tab-size: 2;
+        }
+
+        div.path { font-size: 110%; }
+        div.path a:link, div.path a:visited { color: #000; }
+        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+
+        table.coverage td {
+            margin: 0;
+            padding: 0;
+            color: #111;
+            vertical-align: top;
+        }
+        table.coverage td.line-count {
+            width: 50px;
+            text-align: right;
+            padding-right: 5px;
+        }
+        table.coverage td.line-coverage {
+            color: #777 !important;
+            text-align: right;
+            border-left: 1px solid #666;
+            border-right: 1px solid #666;
+        }
+
+        table.coverage td.text {
+        }
+
+        table.coverage td span.cline-any {
+            display: inline-block;
+            padding: 0 5px;
+            width: 40px;
+        }
+        table.coverage td span.cline-neutral {
+            background: #eee;
+        }
+        table.coverage td span.cline-yes {
+            background: #b5d592;
+            color: #999;
+        }
+        table.coverage td span.cline-no {
+            background: #fc8c84;
+        }
+
+        .cstat-yes { color: #111; }
+        .cstat-no { background: #fc8c84; color: #111; }
+        .fstat-no { background: #ffc520; color: #111 !important; }
+        .cbranch-no { background:  yellow !important; color: #111; }
+
+        .cstat-skip { background: #ddd; color: #111; }
+        .fstat-skip { background: #ddd; color: #111 !important; }
+        .cbranch-skip { background: #ddd !important; color: #111; }
+
+        .missing-if-branch {
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: black;
+            color: yellow;
+        }
+
+        .skip-if-branch {
+            display: none;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: #ccc;
+            color: white;
+        }
+
+        .missing-if-branch .typ, .skip-if-branch .typ {
+            color: inherit !important;
+        }
+
+        .entity, .metric { font-weight: bold; }
+        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
+        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+
+        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
+        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
+        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
+        div.coverage-summary th.file { border-right: none !important; }
+        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
+        div.coverage-summary th.pct { border-right: none !important; }
+        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
+        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
+        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
+        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
+        div.coverage-summary td.pic { min-width: 120px !important;  }
+        div.coverage-summary a:link { color: #000; }
+        div.coverage-summary a:visited { color: #333; }
+        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+
+        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+            height: 10px;
+            width: 7px;
+            display: inline-block;
+            margin-left: 0.5em;
+        }
+        div.coverage-summary .yui3-datatable-sort-indicator {
+            background: no-repeat scroll 0 0 transparent;
+        }
+        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+            background-position: 0 -20px;
+        }
+        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+            background-position: 0 -10px;
+        }
+
+        .high { background: #b5d592 !important; }
+        .medium { background: #ffe87c !important; }
+        .low { background: #fc8c84 !important; }
+
+        span.cover-fill, span.cover-empty {
+            display:inline-block;
+            border:1px solid #444;
+            background: white;
+            height: 12px;
+        }
+        span.cover-fill {
+            background: #ccc;
+            border-right: 1px solid #444;
+        }
+        span.cover-empty {
+            background: white;
+            border-left: none;
+        }
+        span.cover-full {
+            border-right: none !important;
+        }
+        pre.prettyprint {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .com { color: #999 !important; }
+        .ignore-none { color: #999; font-weight: normal; }
+
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1 style="font-weight: bold;">
+        <a href="https://github.com/npmtest/node-npmtest-nid">npmtest-nid (v0.0.1)</a>
+    </h1>
+    <h1>Code coverage report for <span class="entity">node-npmtest-nid/node_modules/nid/nid.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">20.69% <small>(12 / 58)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">6.25% <small>(2 / 32)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">11.11% <small>(1 / 9)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">20.69% <small>(12 / 58)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../../index.html">All files</a> &#187; <a href="index.html">node-npmtest-nid/node_modules/nid/</a> &#187; nid.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* Copyright (c) 2013 Richard Rodger, MIT License */
+"use strict";
+&nbsp;
+&nbsp;
+/* Module API:
+ * var nid = require('nid')
+ * nid() // returns new random id as string
+ * nid({options}) // returns new nid function that generates ids using options
+ *
+ * options are:
+ *   length: number of chars in id
+ *   alphabet: alphabet to take chars from randomly
+ *   hex, HEX: alphabet is hexadecimal, lower or upper case respectively (overrides alphabet)
+ *   exclude,curses: (exlude overrides)
+ *     array of strings - excluded if contained in id
+ *     string: comma-separated list of curses
+ *     regexp: excluded if matches
+ *     function: return true if exluded, first arg is id
+ *
+ */
+&nbsp;
+&nbsp;
+var defaults = {
+    length: 6,
+    alphabet: '0123456789abcdefghijklmnopqrstuvwxyz',
+&nbsp;
+    // function hidecurse(s) {o='';for(i=0; i&lt;s.length; i++){o+='\\'+'x'+(s.charCodeAt(i).toString(16).toUpperCase())} console.log(o); }
+    curses: [
+        '\x66\x75\x63\x6B',
+        '\x73\x68\x69\x74',
+        '\x70\x69\x73\x73',
+        '\x63\x75\x6E\x74',
+        '\x74\x69\x74\x73',
+        '\x6E\x69\x67\x67\x65\x72',
+        '\x63\x6F\x63\x6B\x73\x75\x63\x6B\x65\x72',
+        '\x6D\x6F\x74\x68\x65\x72\x66\x75\x63\x6B\x65\x72',
+        '\x66\x72\x61\x63\x6B',
+        '\x66\x72\x61\x6B'
+    ],
+&nbsp;
+}
+&nbsp;
+&nbsp;
+var default_cursed = cursing(defaults.curses)
+&nbsp;
+    function cursing(curses) {
+        var typestr = Object.prototype.toString.call(curses).substring(8)
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if ('String]' == typestr) {
+<span class="cstat-no" title="statement not covered" >            curses = curses.split(/\s*,\s*/)</span>
+        }
+&nbsp;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (Array.isArray(curses)) {
+            return <span class="fstat-no" title="function not covered" >function (code) {</span>
+<span class="cstat-no" title="statement not covered" >                var codelower = code.toLowerCase()</span>
+<span class="cstat-no" title="statement not covered" >                for (var i = 0; i &lt; curses.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >                    if (-1 != codelower.indexOf(curses[i])) {</span>
+<span class="cstat-no" title="statement not covered" >                        return true</span>
+                    }
+                }
+            }
+        } else {
+<span class="cstat-no" title="statement not covered" >            if ('Function]' == typestr) {</span>
+<span class="cstat-no" title="statement not covered" >                return curses</span>
+            } else <span class="cstat-no" title="statement not covered" >if ('RegExp]' == typestr) {</span>
+<span class="cstat-no" title="statement not covered" >                return <span class="fstat-no" title="function not covered" >function (code) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    return !!code.match(curses)</span>
+                }
+            } else <span class="cstat-no" title="statement not covered" >return <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >                return false</span>
+            }
+        }
+    }
+&nbsp;
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function generate(opts) {</span>
+<span class="cstat-no" title="statement not covered" >        var length = defaults.length</span>
+<span class="cstat-no" title="statement not covered" >        var alphabet = defaults.alphabet</span>
+<span class="cstat-no" title="statement not covered" >        var cursed = default_cursed</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (opts) {</span>
+<span class="cstat-no" title="statement not covered" >            length = opts.length || length</span>
+<span class="cstat-no" title="statement not covered" >            alphabet = opts.alphabet || alphabet</span>
+<span class="cstat-no" title="statement not covered" >            cursed = opts.curses ? cursing(opts.curses) : cursed</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        var code = null,</span>
+            numchars = alphabet.length
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            do {</span>
+<span class="cstat-no" title="statement not covered" >                var time = new Date().getTime()</span>
+<span class="cstat-no" title="statement not covered" >                var sb = []</span>
+<span class="cstat-no" title="statement not covered" >                for (var i = 0; i &lt; length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >                    var c = Math.floor((time * Math.random()) % numchars)</span>
+<span class="cstat-no" title="statement not covered" >                    sb.push(alphabet[c])</span>
+                }
+<span class="cstat-no" title="statement not covered" >                code = sb.join('')</span>
+            }
+            while (cursed(code))
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            return code</span>
+    }
+&nbsp;
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function make(opts) {</span>
+<span class="cstat-no" title="statement not covered" >        ['length', 'alphabet', 'curses'].forEach(<span class="fstat-no" title="function not covered" >function (setting) {</span></span>
+<span class="cstat-no" title="statement not covered" >            opts[setting] = (void 0 === opts[setting]) ? defaults[setting] : opts[setting]</span>
+        })
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (opts.hex) {</span>
+<span class="cstat-no" title="statement not covered" >            opts.alphabet = '0123456789abcdef'</span>
+        } else <span class="cstat-no" title="statement not covered" >if (opts.HEX) {</span>
+<span class="cstat-no" title="statement not covered" >            opts.alphabet = '0123456789ABCDEF'</span>
+        }
+&nbsp;
+        // exclude overrides curses
+<span class="cstat-no" title="statement not covered" >        opts.curses = opts.exclude || opts.curses</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            return generate(opts)</span>
+        }
+    }
+&nbsp;
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function nid() {</span>
+<span class="cstat-no" title="statement not covered" >        var arg0 = arguments[0]</span>
+<span class="cstat-no" title="statement not covered" >        if (arg0) {</span>
+<span class="cstat-no" title="statement not covered" >            var typestr = Object.prototype.toString.call(arg0).substring(8)</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            if ("Number]" === typestr) {</span>
+<span class="cstat-no" title="statement not covered" >                return generate({</span>
+                    length: arg0
+                })
+            } else <span class="cstat-no" title="statement not covered" >if ("Object]" === typestr) {</span>
+<span class="cstat-no" title="statement not covered" >                return make(arg0)</span>
+            } else <span class="cstat-no" title="statement not covered" >return generate();</span>
+        }
+&nbsp;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return generate()</span>
+    }
+&nbsp;
+nid.__defaults = defaults
+&nbsp;
+&nbsp;
+module.exports = nid
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a> at Fri Apr 21 2017 17:30:19 GMT+0000 (UTC)</div>
+</div>
+</body>
+</html>
